@@ -1,9 +1,17 @@
-// src/redux/store.ts
-import { configureStore, combineReducers } from '@reduxjs/toolkit';
-import { apiSlice } from '@/lib/store/apiSlice';
-import searchReducer from './searchSlice';
-import { persistReducer, persistStore, FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER } from 'redux-persist';
-import storage from 'redux-persist/lib/storage';
+import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { apiSlice } from "@/lib/store/apiSlice";
+import searchReducer from "./searchSlice";
+import {
+  persistReducer,
+  persistStore,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from "redux-persist";
+import storage from "redux-persist/lib/storage";
 
 const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
@@ -11,9 +19,9 @@ const rootReducer = combineReducers({
 });
 
 const persistConfig = {
-  key: 'root',
+  key: "root",
   storage,
-  whitelist: ['search'],
+  whitelist: ["search"],
 };
 
 // Create a persisted reducer
@@ -35,5 +43,5 @@ export const makeStore = () => {
 export const persistor = persistStore(makeStore());
 
 export type AppStore = ReturnType<typeof makeStore>;
-export type RootState = ReturnType<AppStore['getState']>;
-export type AppDispatch = AppStore['dispatch'];
+export type RootState = ReturnType<AppStore["getState"]>;
+export type AppDispatch = AppStore["dispatch"];

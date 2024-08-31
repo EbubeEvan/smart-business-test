@@ -16,9 +16,7 @@ export default function ReduxProvider({
 
   return (
     <Provider store={storeRef.current}>
-      <PersistGate persistor={persistor}>
-        {children}
-      </PersistGate>
+      <PersistGate persistor={persistor}>{children}</PersistGate>
     </Provider>
   );
 }
