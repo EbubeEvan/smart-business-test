@@ -22,6 +22,7 @@ const persistConfig = {
   key: "root",
   storage,
   whitelist: ["search"],
+  debug: true,
 };
 
 // Create a persisted reducer

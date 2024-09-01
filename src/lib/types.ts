@@ -5,6 +5,10 @@ export interface SearchType {
   phone: string;
 }
 
+export interface SearchParamsType {
+  params : SearchType
+}
+
 export interface UserType {
   id: number;
   name: string;

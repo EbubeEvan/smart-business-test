@@ -18,7 +18,9 @@ const config: Config = {
   			md: 'calc(var(--radius) - 2px)',
   			sm: 'calc(var(--radius) - 4px)'
   		},
-  		colors: {}
+  		colors: {
+			"custom-blue" : "#0078d7"
+		}
   	}
   },
   plugins: [require("tailwindcss-animate")],
