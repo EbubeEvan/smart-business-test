@@ -1,10 +1,12 @@
 "use client";
 
-import { Input } from "../ui/input";
 import { useState, useEffect } from "react";
+
 import { useAppDispatch, useAppSelector } from "@/lib/store/hook";
 import { setParams } from "@/lib/store/searchSlice";
 import { SearchType } from "@/lib/types";
+
+import { Input } from "../ui/input";
 
 export const Search = () => {
   const dispatch = useAppDispatch();

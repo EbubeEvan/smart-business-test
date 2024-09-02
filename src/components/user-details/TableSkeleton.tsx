@@ -33,7 +33,10 @@ export const TableSkeleton = () => {
             </TableHeader>
             <TableBody>
               {TABLE_SKELETON_ITERATOR.map((row) => (
-                <TableRow key={row} className="hover:bg-transparent dark:hover:bg-transparent border-none">
+                <TableRow
+                  key={row}
+                  className="hover:bg-transparent dark:hover:bg-transparent border-none"
+                >
                   <TableCell>
                     <Skeleton className="h-8 w-[10rem]" />
                   </TableCell>
