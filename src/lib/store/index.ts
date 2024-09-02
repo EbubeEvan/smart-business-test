@@ -1,7 +1,5 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
 import { setupListeners } from '@reduxjs/toolkit/query'
-import { apiSlice } from "@/lib/store/apiSlice";
-import searchReducer from "./searchSlice";
 import {
   persistReducer,
   persistStore,
@@ -13,13 +11,17 @@ import {
   REGISTER,
 } from "redux-persist";
 import storage from "redux-persist/lib/storage";
+import { PersistConfig } from "redux-persist";
+
+import { apiSlice } from "@/lib/store/apiSlice";
+import searchReducer from "./searchSlice";
 
 const rootReducer = combineReducers({
   [apiSlice.reducerPath]: apiSlice.reducer,
   search: searchReducer,
 });
 
-const persistConfig = {
+const persistConfig : PersistConfig<ReturnType<typeof rootReducer>> = {
   key: 'root',
   version: 1,
   storage,
