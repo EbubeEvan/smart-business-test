@@ -14,7 +14,7 @@ import { useAppSelector } from "@/lib/store/hook";
 import { TableSkeleton } from "./TableSkeleton";
 
 export default function UserTable() {
-  const { data, isLoading, isFetching, error } = useGetUsersQuery();
+  const { data, isLoading, error, refetch } = useGetUsersQuery();
   const searchParams = useAppSelector((state) => state.search.params);
 
   const filteredUsers = useMemo(() => {
@@ -29,7 +29,22 @@ export default function UserTable() {
     });
   }, [data, searchParams]);
 
-  console.log({ isLoading, isFetching, data, error });
+  console.log(error);
+  
+
+  if (error) {
+    return (
+      <p className="text-red-500 mt-5">
+        An error occurred while fetching data.{" "}
+        <span
+          onClick={() => refetch()}
+          className="cursor-pointer text-custom-blue"
+        >
+          Retry
+        </span>
+      </p>
+    );
+  }
 
   return (
     <div className="w-full flex-1">
@@ -56,17 +71,21 @@ export default function UserTable() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredUsers?.map((user) => (
-                  <TableRow
-                    key={user.id}
-                    className="hover:bg-blue-300/20 dark:hover:bg-blue-900/20 transition-colors"
-                  >
-                    <TableCell>{user.name}</TableCell>
-                    <TableCell>{user.username}</TableCell>
-                    <TableCell>{user.email}</TableCell>
-                    <TableCell>{user.phone}</TableCell>
-                  </TableRow>
-                ))}
+                {filteredUsers?.length ? (
+                  filteredUsers?.map((user) => (
+                    <TableRow
+                      key={user.id}
+                      className="hover:bg-blue-300/20 dark:hover:bg-blue-900/20 transition-colors"
+                    >
+                      <TableCell>{user.name}</TableCell>
+                      <TableCell>{user.username}</TableCell>
+                      <TableCell>{user.email}</TableCell>
+                      <TableCell>{user.phone}</TableCell>
+                    </TableRow>
+                  ))
+                ) : (
+                  <p className="mt-4 text-center">No results</p>
+                )}
               </TableBody>
             </Table>
           </div>

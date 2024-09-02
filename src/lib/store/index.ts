@@ -19,17 +19,17 @@ const rootReducer = combineReducers({
 });
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
+  version: 1,
   storage,
   whitelist: ["search"],
-  debug: true,
+  blacklist: [apiSlice.reducerPath]
 };
 
-// Create a persisted reducer
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
-export const makeStore = () => {
-  return configureStore({
+export const makeStore = () =>
+  configureStore({
     reducer: persistedReducer,
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({
@@ -38,10 +38,9 @@ export const makeStore = () => {
         },
       }).concat(apiSlice.middleware),
   });
-};
 
-// Create a persistor instance
-export const persistor = persistStore(makeStore());
+export const store = makeStore();
+export const persistor = persistStore(store);
 
 export type AppStore = ReturnType<typeof makeStore>;
 export type RootState = ReturnType<AppStore["getState"]>;
