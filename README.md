@@ -7,3 +7,4 @@ A user management system built with React, Next.js, and TypeScript with Redux To
 - Advanced Search
 - Persistent search keys and results
 - Robust error handling
+- Light and dark mode
