@@ -1,14 +1,15 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { UserType } from '../types'
+import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { UserType } from '../types';
 
 export const apiSlice = createApi({
   reducerPath: 'api',
   baseQuery: fetchBaseQuery({ baseUrl: process.env.NEXT_PUBLIC_BASE_URL }),
+  refetchOnReconnect: true,
   endpoints: (builder) => ({
     getUsers: builder.query<UserType[], void>({
       query: () => 'users',
     }),
   }),
-})
+});
 
-export const { useGetUsersQuery } = apiSlice
+export const { useGetUsersQuery } = apiSlice;

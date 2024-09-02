@@ -14,7 +14,7 @@ import { useAppSelector } from "@/lib/store/hook";
 import { TableSkeleton } from "./TableSkeleton";
 
 export default function UserTable() {
-  const { data, isLoading, error, refetch } = useGetUsersQuery();
+  const { data, isLoading, error } = useGetUsersQuery();
   const searchParams = useAppSelector((state) => state.search.params);
 
   const filteredUsers = useMemo(() => {
@@ -29,21 +29,27 @@ export default function UserTable() {
     });
   }, [data, searchParams]);
 
-  console.log(error);
-  
-
+  // Handling various error states
   if (error) {
-    return (
-      <p className="text-red-500 mt-5">
-        An error occurred while fetching data.{" "}
-        <span
-          onClick={() => refetch()}
-          className="cursor-pointer text-custom-blue"
-        >
-          Retry
-        </span>
-      </p>
-    );
+    if ('status' in error) {
+      if (error.status === 'FETCH_ERROR') {
+        return <p className="text-red-500 mt-20">Network error: Please check your internet connection.</p>;
+      } else if (error.status === 'PARSING_ERROR') {
+        return <p className="text-red-500 mt-20">Data parsing error occurred.</p>;
+      } else if (error.status === 'TIMEOUT_ERROR') {
+        return <p className="text-red-500 mt-20">Service Timeout.</p>;
+      } else if (error.status === 404) {
+        return <p className="text-red-500 mt-20">Resource not found.</p>;
+      } else if (error.status === 500) {
+        return <p className="text-red-500 mt-20">Server error occurred.</p>;
+      }
+    } else {
+      return <p>An unexpected error occurred.</p>;
+    }
+  }
+
+  if(!filteredUsers?.length && !isLoading){
+    return (<p className="text-center mt-20">No results</p>)
   }
 
   return (
@@ -71,8 +77,7 @@ export default function UserTable() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {filteredUsers?.length ? (
-                  filteredUsers?.map((user) => (
+                {filteredUsers?.map((user) => (
                     <TableRow
                       key={user.id}
                       className="hover:bg-blue-300/20 dark:hover:bg-blue-900/20 transition-colors"
@@ -82,10 +87,7 @@ export default function UserTable() {
                       <TableCell>{user.email}</TableCell>
                       <TableCell>{user.phone}</TableCell>
                     </TableRow>
-                  ))
-                ) : (
-                  <p className="mt-4 text-center">No results</p>
-                )}
+                  ))}
               </TableBody>
             </Table>
           </div>

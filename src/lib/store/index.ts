@@ -1,4 +1,5 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit";
+import { setupListeners } from '@reduxjs/toolkit/query'
 import { apiSlice } from "@/lib/store/apiSlice";
 import searchReducer from "./searchSlice";
 import {
@@ -41,6 +42,8 @@ export const makeStore = () =>
 
 export const store = makeStore();
 export const persistor = persistStore(store);
+
+setupListeners(store.dispatch)
 
 export type AppStore = ReturnType<typeof makeStore>;
 export type RootState = ReturnType<AppStore["getState"]>;
